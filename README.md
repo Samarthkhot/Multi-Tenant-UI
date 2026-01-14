@@ -1,4 +1,4 @@
-# Tekno Tantra – Multi-Tenant Admin Dashboard
+# Multi-Tenant Admin Dashboard
 
 This project is a frontend dashboard application built using React (Vite) and Tailwind CSS.  
 It demonstrates authentication flow, protected routing, reusable components and responsive UI design.
