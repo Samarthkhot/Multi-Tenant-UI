@@ -1,12 +1,19 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+// ✅ Hardcoded Admin Accounts
+const ADMINS = [
+  { email: "Samarth@gmail.com", password: "sam123" },
+  { email: "Parth@gmail.com", password: "parth123" },
+]
+
 const AdminLogin = () => {
   const navigate = useNavigate()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
+  const [authError, setAuthError] = useState("")
 
   const validate = () => {
     let newErrors = {}
@@ -23,10 +30,23 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setAuthError("")
+
     if (!validate()) return
 
-    localStorage.setItem("role", "admin")
-    navigate("/admin-dashboard")
+    // ✅ Check against hardcoded admins
+    const isValidAdmin = ADMINS.some(
+      (admin) =>
+        admin.email === email && admin.password === password
+    )
+
+    if (isValidAdmin) {
+      localStorage.setItem("role", "admin")
+      localStorage.setItem("adminEmail", email)
+      navigate("/admin-dashboard")
+    } else {
+      setAuthError("Invalid admin email or password ❌")
+    }
   }
 
   const isFormValid =
@@ -41,9 +61,16 @@ const AdminLogin = () => {
           Admin Login 🔐
         </h2>
 
-        <p className="text-center text-white/70 mb-8">
-          Sign in to access your dashboard
+        <p className="text-center text-white/70 mb-6">
+          Authorized admins only
         </p>
+
+        {/* ❌ Authentication Error */}
+        {authError && (
+          <div className="bg-red-500/20 text-red-200 text-sm p-3 rounded mb-4 text-center">
+            {authError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
 
@@ -56,7 +83,7 @@ const AdminLogin = () => {
               type="email"
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/20 border border-white/30
               placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="admin@example.com"
+              placeholder="@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -76,7 +103,7 @@ const AdminLogin = () => {
               type="password"
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/20 border border-white/30
               placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white"
-              placeholder="••••••••"
+              placeholder="**********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -101,6 +128,7 @@ const AdminLogin = () => {
           </button>
 
         </form>
+
 
       </div>
     </div>
