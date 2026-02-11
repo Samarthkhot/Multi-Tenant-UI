@@ -9,7 +9,7 @@ import TenantDashboard from "./pages/tenant/TenantDashboard"
 
 import ProtectedRoute from "./components/common/ProtectedRoute"
 import LoginGuard from "./components/common/LoginGuard"
-import DashboardLayout from "./layouts/DashboardLayout"
+import DashboardLayout from "./Layouts/DashboardLayout"
 import Settings from "./pages/Settings"
 import Profile from "./pages/Profile"
 
