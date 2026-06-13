@@ -15,7 +15,7 @@ const Landing = () => {
 
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-3 tracking-wide">
-          Tekno Tantra 🚀
+          Multi-Tenant Management System
         </h1>
 
         <p className="text-center text-white/80 mb-10">

@@ -54,7 +54,7 @@ const DashboardLayout = () => {
           md:translate-x-0`}
         >
           <h2 className="text-xl font-bold mb-6 text-slate-800 dark:text-white">
-            Tekno Tantra
+            Multi-tenant Management System
           </h2>
 
           <nav className="space-y-2">

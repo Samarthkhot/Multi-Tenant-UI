@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 // ✅ Hardcoded Admin Accounts
 const ADMINS = [
-  { email: "Samarth@gmail.com", password: "sam123" },
-  { email: "Parth@gmail.com", password: "parth123" },
+  { email: "Samarth@gmail.com", password: "samarth123" },
 ]
 
 const AdminLogin = () => {
@@ -64,6 +63,13 @@ const AdminLogin = () => {
         <p className="text-center text-white/70 mb-6">
           Authorized admins only
         </p>
+
+        {/* Test Credentials Notice */}
+        <div className="bg-yellow-400/20 text-yellow-200 text-sm p-4 rounded mb-4 text-center border border-yellow-400/30">
+          <p className="font-semibold mb-1">Test Credentials</p>
+          <p>Email: <span className="font-mono">Samarth@gmail.com</span></p>
+          <p>Password: <span className="font-mono">samarth123</span></p>
+        </div>
 
         {/* ❌ Authentication Error */}
         {authError && (
