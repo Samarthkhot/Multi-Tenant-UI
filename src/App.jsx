@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom"
+import { AuthProvider, TenantProvider, UserProvider, BillingProvider } from "./contexts"
+import { ToastContainer } from "./components/ui"
 
 import Landing from "./pages/Landing"
 import AdminLogin from "./pages/admin/AdminLogin"
@@ -13,62 +15,51 @@ import DashboardLayout from "./Layouts/DashboardLayout"
 import Settings from "./pages/Settings"
 import Profile from "./pages/Profile"
 
+import TenantManagement from "./pages/admin/TenantManagement"
+import TenantDetail from "./pages/admin/TenantDetail"
+import UserManagement from "./pages/admin/UserManagement"
+import BillingManagement from "./pages/admin/BillingManagement"
+import AuditLogs from "./pages/admin/AuditLogs"
+
+import TenantUsers from "./pages/tenant/TenantUsers"
+import TenantBilling from "./pages/tenant/TenantBilling"
 
 function App() {
   return (
-    <Routes>
+    <AuthProvider>
+      <TenantProvider>
+        <UserProvider>
+          <BillingProvider>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Landing />} />
 
-      {/* Landing */}
-      <Route path="/" element={<Landing />} />
+        <Route path="/admin-login" element={<LoginGuard role="admin"><AdminLogin /></LoginGuard>} />
+        <Route path="/tenant-login" element={<LoginGuard role="tenant"><TenantLogin /></LoginGuard>} />
 
-      {/* Login Routes */}
-      <Route
-        path="/admin-login"
-        element={
-          <LoginGuard role="admin">
-            <AdminLogin />
-          </LoginGuard>
-        }
-      />
+        <Route path="/admin-dashboard" element={<ProtectedRoute allowedRole="admin"><DashboardLayout role="admin" /></ProtectedRoute>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="tenants" element={<TenantManagement />} />
+          <Route path="tenants/:tenantId" element={<TenantDetail />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="billing" element={<BillingManagement />} />
+          <Route path="audit" element={<AuditLogs />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
 
-      <Route
-        path="/tenant-login"
-        element={
-          <LoginGuard role="tenant">
-            <TenantLogin />
-          </LoginGuard>
-        }
-      />
-
-      {/* Admin Dashboard */}
-      <Route
-        path="/admin-dashboard"
-        element={
-          <ProtectedRoute allowedRole="admin">
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<AdminDashboard />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="profile" element={<Profile />} />
-      </Route>
-
-      {/* Tenant Dashboard */}
-      <Route
-        path="/tenant-dashboard"
-        element={
-          <ProtectedRoute allowedRole="tenant">
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<TenantDashboard />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="profile" element={<Profile />} />
-      </Route>
-
-    </Routes>
+        <Route path="/tenant-dashboard" element={<ProtectedRoute allowedRole="tenant"><DashboardLayout role="tenant" /></ProtectedRoute>}>
+          <Route index element={<TenantDashboard />} />
+          <Route path="users" element={<TenantUsers />} />
+          <Route path="billing" element={<TenantBilling />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Routes>
+          </BillingProvider>
+        </UserProvider>
+      </TenantProvider>
+    </AuthProvider>
   )
 }
 
